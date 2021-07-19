@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Mechanic;
 
 use App\Models\Truck;
 use Illuminate\Http\Request;
@@ -14,7 +15,8 @@ class TruckController extends Controller
      */
     public function index()
     {
-        //
+        $trucks = Truck::all();
+        return view('truck.index', ['trucks' => $trucks]);
     }
 
     /**
@@ -24,7 +26,8 @@ class TruckController extends Controller
      */
     public function create()
     {
-        //
+        $mechanics = Mechanic::all();
+        return view('truck.create', ['mechanics' => $mechanics]);
     }
 
     /**
@@ -35,8 +38,21 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $truck = new Truck;
+        $truck->maker = $request->truck_maker;
+        $truck->plate = $request->truck_plate;
+        $truck->make_year = $request->truck_make_year;
+        $truck->mechanic_notices = $request->truck_mechanic_notices;
+        $truck->mechanic_id = $request->mechanic_id;
+        $truck->save();
+        return redirect()->route('truck.index');
     }
+
+    // maker: varchar(255)
+// plate: varchar(20)
+// make_year: tinyint(4) unsigned
+// mechanic_notices: text
+// mechanic_id : int(11)
 
     /**
      * Display the specified resource.
@@ -57,7 +73,8 @@ class TruckController extends Controller
      */
     public function edit(Truck $truck)
     {
-        //
+        $mechanics = Mechanic::all();
+       return view('truck.edit', ['truck' => $truck, 'mechanics' => $mechanics]);
     }
 
     /**
@@ -69,7 +86,13 @@ class TruckController extends Controller
      */
     public function update(Request $request, Truck $truck)
     {
-        //
+        $truck->maker = $request->truck_maker;
+        $truck->plate = $request->truck_plate;
+        $truck->make_year = $request->truck_make_year;
+        $truck->mechanic_notices = $request->truck_mechanic_notices;
+        $truck->mechanic_id = $request->mechanic_id;
+       $truck->save();
+       return redirect()->route('truck.index');
     }
 
     /**
@@ -80,6 +103,7 @@ class TruckController extends Controller
      */
     public function destroy(Truck $truck)
     {
-        //
+        $truck->delete();
+       return redirect()->route('truck.index');
     }
 }
