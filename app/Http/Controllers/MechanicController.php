@@ -40,7 +40,7 @@ class MechanicController extends Controller
         $mechanic->name = $request->mechanic_name;
         $mechanic->surname = $request->mechanic_surname;
         $mechanic->save();
-        return redirect()->route('mechanic.index');
+        return redirect()->route('mechanic.index')->with('success_message', 'Successfully saved.');
     }
 
     /**
@@ -77,7 +77,7 @@ class MechanicController extends Controller
         $mechanic->name = $request->mechanic_name;
         $mechanic->surname = $request->mechanic_surname;
         $mechanic->save();
-        return redirect()->route('mechanic.index');
+        return redirect()->route('mechanic.index')->with('success_message', 'Successfully updated.');
     }
 
     /**
@@ -89,9 +89,9 @@ class MechanicController extends Controller
     public function destroy(Mechanic $mechanic)
     {
        if($mechanic->mechanicTrucks->count()){
-           return 'Cannot be deleted because the mechanic has assigned cars.';
+           return redirect()->route('author.index')->with('info_message', 'Cannot be deleted because the mechanic has assigned cars.');
        }
        $mechanic->delete();
-       return redirect()->route('mechanic.index');
+       return redirect()->route('mechanic.index')->with('success_message', 'Successfully deleted.');
     }
 }
