@@ -10,22 +10,34 @@
           <form method="POST" action="{{route('truck.update',[$truck])}}">
             <div class="form-group">
               <label>Maker</label>
-              <input type="text" name="truck_maker" class="form-control" value="{{$truck->maker}}">
+              <input type="text" name="truck_maker" class="form-control" value="{{old('truck_maker',$truck->maker)}}">
+
+
+
               <small class="form-text text-muted">Truck maker</small>
             </div>
             <div class="form-group">
               <label>Plate</label>
-              <input type="text" name="truck_plate" class="form-control" value="{{$truck->plate}}">
+              <input type="text" name="truck_plate" class="form-control" value="{{old('truck_plate',$truck->plate)}}">
+
+
+
               <small class="form-text text-muted">Truck number plate</small>
             </div>
             <div class="form-group">
               <label>Make Year</label>
-              <input type="text" name="truck_make_year" class="form-control" value="{{$truck->make_year}}">
+              <input type="text" name="truck_make_year" class="form-control" value="{{old('truck_make_year',$truck->make_year)}}">
+
+
+
               <small class="form-text text-muted">Year the truck was made</small>
             </div>
             <div class="form-group">
               <label>Mechanic Notices</label>
-              <textarea id="summernote" class="form-control" name="truck_mechanic_notices">{{$truck->mechanic_notices}}</textarea>
+              <textarea id="summernote" class="form-control" name="truck_mechanic_notices">{{old('truck_mechanic_notices',$truck->mechanic_notices)}}</textarea>
+
+
+
               <small class="form-text text-muted">Truck's mechanic notices</small>
             </div>
 

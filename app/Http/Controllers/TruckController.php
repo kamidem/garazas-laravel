@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Mechanic;
-
+use Validator;
 use App\Models\Truck;
 use Illuminate\Http\Request;
 
@@ -38,6 +38,22 @@ class TruckController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(),
+            [
+                'truck_maker' => ['required', 'min:3', 'max:50'],
+                'truck_plate' => ['required', 'min:3', 'max:10'],
+                'truck_make_year' => ['required', 'integer', 'min:1900', 'max:2022'],
+                'truck_mechanic_notices' => ['required'],
+                'mechanic_id' => ['required', 'integer', 'min:1'],
+            ]
+        );
+
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+
         $truck = new Truck;
         $truck->maker = $request->truck_maker;
         $truck->plate = $request->truck_plate;
@@ -73,6 +89,8 @@ class TruckController extends Controller
      */
     public function edit(Truck $truck)
     {
+        
+
         $mechanics = Mechanic::all();
        return view('truck.edit', ['truck' => $truck, 'mechanics' => $mechanics]);
     }
@@ -86,6 +104,21 @@ class TruckController extends Controller
      */
     public function update(Request $request, Truck $truck)
     {
+        $validator = Validator::make($request->all(),
+            [
+                'truck_maker' => ['required', 'min:3', 'max:50'],
+                'truck_plate' => ['required', 'min:3', 'max:10'],
+                'truck_make_year' => ['required', 'integer', 'min:1900', 'max:2022'],
+                'truck_mechanic_notices' => ['required'],
+                'mechanic_id' => ['required', 'integer', 'min:1'],
+            ]
+        );
+
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->back()->withErrors($validator);
+        }
+
         $truck->maker = $request->truck_maker;
         $truck->plate = $request->truck_plate;
         $truck->make_year = $request->truck_make_year;
