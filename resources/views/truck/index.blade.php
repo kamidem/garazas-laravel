@@ -1,25 +1,36 @@
-
-
-
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
-   <div class="row justify-content-center">
-       <div class="col-md-8">
-           <div class="card">
-               <div class="card-header">Trucks</div>
-                @foreach ($trucks as $truck)
-                  <a href="{{route('truck.edit',[$truck])}}">{{$truck->maker}} {{$truck->make_year}} <br> {{$truck->truckMechanic->name}} {{$truck->truckMechanic->surname}}</a>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Trucks</div>
+        <div class="card-body">
+          <ul class="list-group">
+            @foreach ($trucks as $truck)
+            <li class="list-group-item">
+              <div class="list-container">
+                <div class="list-container__content">
+                  <span class="list-container__content__truck">{{$truck->maker}} {{$truck->make_year}}</span>
+                  <span class="list-container__content__mechanic">{{$truck->truckMechanic->name}} {{$truck->truckMechanic->surname}}</span>
+
+
+                </div>
+                <div class="list-container__buttons">
+                  <a href="{{route('truck.edit',[$truck])}}" class="btn btn-success">Edit</a>
                   <form method="POST" action="{{route('truck.destroy', [$truck])}}">
-                  @csrf
-                  <button type="submit">DELETE</button>
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Delete</button>
                   </form>
-                  <br>
-                @endforeach
-               
-           </div>
-       </div>
-   </div>
+                </div>
+              </div>
+            </li>
+            @endforeach
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
