@@ -89,7 +89,7 @@ class MechanicController extends Controller
     public function destroy(Mechanic $mechanic)
     {
        if($mechanic->mechanicTrucks->count()){
-           return redirect()->route('author.index')->with('info_message', 'Cannot be deleted because the mechanic has assigned cars.');
+           return redirect()->back()->with('info_message', 'Cannot be deleted because the mechanic has assigned cars.');
        }
        $mechanic->delete();
        return redirect()->route('mechanic.index')->with('success_message', 'Successfully deleted.');

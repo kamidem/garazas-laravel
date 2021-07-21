@@ -92,7 +92,7 @@ class TruckController extends Controller
         $truck->mechanic_notices = $request->truck_mechanic_notices;
         $truck->mechanic_id = $request->mechanic_id;
        $truck->save();
-       return redirect()->route('truck.index')->with('success_message', 'Successfully updated.');
+       return redirect()->route('truck.index')->with('info_message', 'Successfully updated.');
     }
 
     /**
