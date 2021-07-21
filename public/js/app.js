@@ -1948,6 +1948,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: true
 // });
 
+$(document).ready(function () {
+  $('#summernote').summernote();
+});
+
 /***/ }),
 
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.js":
