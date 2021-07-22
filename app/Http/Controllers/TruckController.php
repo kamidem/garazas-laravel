@@ -13,10 +13,70 @@ class TruckController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trucks = Truck::all();
-        return view('truck.index', ['trucks' => $trucks]);
+
+        $dir = 'asc';
+        $sort = 'maker';
+        $defaultMechanic = 0;
+        $mechanics = Mechanic::all();
+        $s = '';
+        // Rūšiavimas
+        if ($request->sort_by && $request->dir) {
+            if ('maker' == $request->sort_by && 'asc' == $request->dir) {
+                $trucks = Truck::orderBy('maker')->get();
+            }
+            elseif ('maker' == $request->sort_by && 'desc' == $request->dir) {
+                $trucks = Truck::orderBy('maker', 'desc')->get();
+                $dir = 'desc';
+            }
+            elseif ('make_year' == $request->sort_by && 'asc' == $request->dir) {
+                $trucks = Truck::orderBy('make_year')->get();
+                $sort = 'make_year';
+            }
+            elseif ('make_year' == $request->sort_by && 'desc' == $request->dir) {
+                $trucks = Truck::orderBy('make_year', 'desc')->get();
+                $dir = 'desc';
+                $sort = 'make_year';
+            }
+            else {
+                $trucks = Truck::all();
+            }
+        }
+
+        // Filtravimas
+        elseif ($request->mechanic_id) {
+            $trucks = Truck::where('mechanic_id', (int)$request->mechanic_id)->get();
+            $defaultMechanic = (int)$request->mechanic_id;
+        }
+
+        // Paieška
+        elseif ($request->s) {
+            $trucks = Truck::where('maker', 'like', '%'.$request->s.'%')->get();
+            $s = $request->s;
+        }
+        elseif ($request->do_search) {
+            $trucks = Truck::where('maker', 'like', '')->get();
+
+        }
+        else {
+            $trucks = Truck::all();
+        }
+
+        
+
+        return view('truck.index', [
+            'trucks' => $trucks,
+            'dir' => $dir,
+            'sort' => $sort,
+            'mechanics' => $mechanics,
+            'defaultMechanic' => $defaultMechanic,
+            's' => $s
+        ]);
+
+
+        // $trucks = Truck::all();
+        // return view('truck.index', ['trucks' => $trucks]);
     }
 
     /**
